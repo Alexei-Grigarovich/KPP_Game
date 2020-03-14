@@ -9,94 +9,100 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class Menu {
-    public static Scene MainMenuScene;
-    public static VBox MainMenuBox;
-    public static Button StartButton;
-    public static Button SettingsButton;
-    public static Button ExitButton;
-    public static Background ButtonColor;
-    public static Background ButtonColorHover;
-    public static Border ButtonBorder;
-    public static Border ButtonBorderHover;
+    public static int sceneWide = 200, sceneHeight = 250;
+    public static Scene mainMenuScene = null;
+    public static VBox mainMenuBox = null;
+    public static Button startButton = null;
+    public static Button settingsButton = null;
+    public static Button exitButton = null;
+    public static Background buttonColor = null;
+    public static Background buttonColorHover = null;
+    public static Border buttonBorder = null;
+    public static Border buttonBorderHover = null;
 
-    public static void InitScene(Stage win, Scene GameScene) throws Exception  {
-        MainMenuBox = new VBox(20);
-        MainMenuScene = new Scene(MainMenuBox , 200, 250);
-        StartButton = new Button("Start");
-        SettingsButton = new Button("Settings");
-        ExitButton = new Button("Exit");
-        ButtonColor = new Background(new BackgroundFill(Color.rgb(81, 189, 143), CornerRadii.EMPTY, Insets.EMPTY));
-        ButtonColorHover = new Background(new BackgroundFill(Color.rgb(144, 214, 184), CornerRadii.EMPTY, Insets.EMPTY));
-        ButtonBorder = new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.DASHED, CornerRadii.EMPTY, new BorderWidths(2)));
-        ButtonBorderHover = new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.DASHED, CornerRadii.EMPTY, new BorderWidths(2)));
+    public static void initScene(Stage win) throws Exception  {
+        mainMenuBox = new VBox(20);
+        mainMenuScene = new Scene(mainMenuBox , sceneWide, sceneHeight);
+        startButton = new Button("Start");
+        settingsButton = new Button("Settings");
+        exitButton = new Button("Exit");
+        buttonColor = new Background(new BackgroundFill(Color.rgb(81, 189, 143), CornerRadii.EMPTY, Insets.EMPTY));
+        buttonColorHover = new Background(new BackgroundFill(Color.rgb(144, 214, 184), CornerRadii.EMPTY, Insets.EMPTY));
+        buttonBorder = new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.DASHED, CornerRadii.EMPTY, new BorderWidths(2)));
+        buttonBorderHover = new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.DASHED, CornerRadii.EMPTY, new BorderWidths(2)));
+
+        win.setScene(mainMenuScene);
 
         //Start Button Parameters
-        StartButton.setMinSize(150, 30);
-        StartButton.setBackground(ButtonColor);
-        StartButton.setBorder(ButtonBorder);
-        StartButton.setOnMouseEntered(e->{
-            StartButton.setBorder(ButtonBorderHover);
-            StartButton.setBackground(ButtonColorHover);
+        startButton.setMinSize(150, 30);
+        startButton.setBackground(buttonColor);
+        startButton.setBorder(buttonBorder);
+        startButton.setOnMouseEntered(e->{
+            startButton.setBorder(buttonBorderHover);
+            startButton.setBackground(buttonColorHover);
         });
-        StartButton.setOnMouseExited(e->{
-            StartButton.setBorder(ButtonBorder);
-            StartButton.setBackground(ButtonColor);
+        startButton.setOnMouseExited(e->{
+            startButton.setBorder(buttonBorder);
+            startButton.setBackground(buttonColor);
         });
-        StartButton.setOnAction(e->{
+        startButton.setOnAction(e->{
             System.out.println("Pressed start");
-            Controller.InitKeyControl();
+
+            Controller.initKeyControl(win);
 
             //Render
             try {
-                Game.RenderScene();
+                Game.renderScene();
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            Main.backProc.start();
+            Main.backProc.isWork = true;
 
-            win.setScene(GameScene);
+            win.setScene(Game.gameScene);
             win.setX(550);
             win.setY(200);
         });
 
 
         //Settings Button Parameters
-        SettingsButton.setMinSize(150, 30);
-        SettingsButton.setBackground(ButtonColor);
-        SettingsButton.setBorder(ButtonBorder);
-        SettingsButton.setOnMouseEntered(e->{
-            SettingsButton.setBorder(ButtonBorderHover);
-            SettingsButton.setBackground(ButtonColorHover);
+        settingsButton.setMinSize(150, 30);
+        settingsButton.setBackground(buttonColor);
+        settingsButton.setBorder(buttonBorder);
+        settingsButton.setOnMouseEntered(e->{
+            settingsButton.setBorder(buttonBorderHover);
+            settingsButton.setBackground(buttonColorHover);
         });
-        SettingsButton.setOnMouseExited(e->{
-            SettingsButton.setBorder(ButtonBorder);
-            SettingsButton.setBackground(ButtonColor);
+        settingsButton.setOnMouseExited(e->{
+            settingsButton.setBorder(buttonBorder);
+            settingsButton.setBackground(buttonColor);
         });
-        SettingsButton.setOnAction(e->{
+        settingsButton.setOnAction(e->{
             System.out.println("Pressed settings");
+
+            win.setScene(Settings.settingsScene);
         });
 
 
         //Exit Button Parameters
-        ExitButton.setMinSize(150, 30);
-        ExitButton.setBackground(ButtonColor);
-        ExitButton.setBorder(ButtonBorder);
-        ExitButton.setOnMouseEntered(e->{
-            ExitButton.setBorder(ButtonBorderHover);
-            ExitButton.setBackground(ButtonColorHover);
+        exitButton.setMinSize(150, 30);
+        exitButton.setBackground(buttonColor);
+        exitButton.setBorder(buttonBorder);
+        exitButton.setOnMouseEntered(e->{
+            exitButton.setBorder(buttonBorderHover);
+            exitButton.setBackground(buttonColorHover);
         });
-        ExitButton.setOnMouseExited(e->{
-            ExitButton.setBorder(ButtonBorder);
-            ExitButton.setBackground(ButtonColor);
+        exitButton.setOnMouseExited(e->{
+            exitButton.setBorder(buttonBorder);
+            exitButton.setBackground(buttonColor);
         });
-        ExitButton.setOnAction(e->{
+        exitButton.setOnAction(e->{
             System.out.println("Pressed exit");
             win.close();
         });
 
         //Menu
-        MainMenuBox.getChildren().addAll(StartButton, SettingsButton, ExitButton);
-        MainMenuBox.setAlignment(Pos.CENTER);
-        MainMenuBox.setBackground(new Background(new BackgroundFill(Color.rgb(95, 122, 111), CornerRadii.EMPTY, Insets.EMPTY)));
+        mainMenuBox.getChildren().addAll(startButton, settingsButton, exitButton);
+        mainMenuBox.setAlignment(Pos.CENTER);
+        mainMenuBox.setBackground(new Background(new BackgroundFill(Color.rgb(95, 122, 111), CornerRadii.EMPTY, Insets.EMPTY)));
     }
 }

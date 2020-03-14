@@ -8,87 +8,100 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
-import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 public class Game {
-    public static int GameSceneWidth = 800, GameSceneHeight = 600;
-    public static int TilesWide = 50, TilesHeight = 50;
-    public static Pane GamePane = null;
-    public static Pane MainGamePane = null;
-    public static Background MainGameBackground = new Background(new BackgroundFill(Color.rgb(0, 0, 0), CornerRadii.EMPTY, Insets.EMPTY));
-    public static Scene GameScene = null;
+    public static int gameSceneWidth = 800, gameSceneHeight = 600;
+    public static int tilesWide = 50, tilesHeight = 50;
+    public static double maxChance = 0.30f;
+    public static Pane gamePane = new Pane();
+    public static Pane mainGamePane = new Pane();
+    public static Background mainGameBackground = new Background(new BackgroundFill(Color.rgb(0, 0, 0), CornerRadii.EMPTY, Insets.EMPTY));
+    public static Scene gameScene = null;
     public static Tank myTank = null;
-    public static ArrayList<Tile> Walls = null;
+    public static ArrayList<Tile> walls = null;
 
-    public static void InitScene() throws MalformedURLException {
-        MainGamePane = new Pane();
-        MainGamePane.setBackground(MainGameBackground);
-        GamePane = new Pane();
-        MainGamePane.getChildren().add(GamePane);
-        GameScene = new Scene(MainGamePane, GameSceneWidth, GameSceneHeight);
-        Walls = new ArrayList();
+    public static void initScene() throws MalformedURLException {
+        mainGamePane.setBackground(mainGameBackground);
+        mainGamePane.getChildren().add(gamePane);
+        gameScene = new Scene(mainGamePane, gameSceneWidth, gameSceneHeight);
+        walls = new ArrayList();
     }
 
-    public static void RenderScene() throws Exception {
+    public static void renderScene() throws Exception {
+        walls.clear();
+
         //Map
-        for(int i = 0; i < TilesHeight; i++) {
-            for(int j = 0; j < TilesWide; j++) {
-                double x = Math.sqrt(i * j) , half = Math.sqrt(TilesWide * TilesHeight) / 2;
+        for(int i = 0; i < tilesHeight; i++) {
+            for(int j = 0; j < tilesWide; j++) {
+
+                double x = Math.sqrt(i * j) , half = Math.sqrt(tilesWide * tilesHeight) / 2;
                 double chance = -(Math.pow((x-half), 2))/400+0.3f;
-                if(chance < 0.1f) chance = 0.1f;
+
+                if(chance < maxChance/3) chance = maxChance/3;
+
                 if(Math.random() > chance) {
-                    Tile GrassCell = new Tile(Tiles.TileGrass.toURI().toURL().toString(), 0, i, j);
-                    GrassCell.setTranslateX(j * Tiles.TileWidth);
-                    GrassCell.setTranslateY(i * Tiles.TileWidth);
-                    GamePane.getChildren().add(GrassCell);
+                    Tile GrassCell = new Tile(Tiles.tileGrass.toURI().toURL().toString(), 0, i, j);
+                    GrassCell.setTranslateX(j * Tiles.tileWidth);
+                    GrassCell.setTranslateY(i * Tiles.tileWidth);
+                    gamePane.getChildren().add(GrassCell);
                 } else {
-                    Tile WallCell = new Tile(Tiles.TileWall.toURI().toURL().toString(), 1, i, j);
-                    WallCell.setTranslateX(j * Tiles.TileWidth);
-                    WallCell.setTranslateY(i * Tiles.TileWidth);
-                    Walls.add(WallCell);
-                    GamePane.getChildren().add(WallCell);
+                    Tile WallCell = new Tile(Tiles.tileWall.toURI().toURL().toString(), 1, i, j);
+                    WallCell.setTranslateX(j * Tiles.tileWidth);
+                    WallCell.setTranslateY(i * Tiles.tileWidth);
+                    walls.add(WallCell);
+                    gamePane.getChildren().add(WallCell);
                 }
             }
         }
+        System.out.println("Количество стен = " + walls.size());
 
         //Boundary barrier
-        for(int j = -1;j < TilesWide + 1; j++) {
+        for(int j = -1;j < tilesWide + 1; j++) {
             int i = -1;
-            Tile WallCell = new Tile(Tiles.TileWall.toURI().toURL().toString(), 1, i, j);
-            WallCell.setTranslateX(j * Tiles.TileWidth);
-            WallCell.setTranslateY(i * Tiles.TileWidth);
-            Walls.add(WallCell);
-            GamePane.getChildren().add(WallCell);
-            i = TilesHeight;
-            Tile WallCell1 = new Tile(Tiles.TileWall.toURI().toURL().toString(), 1, i, j);
-            WallCell1.setTranslateX(j * Tiles.TileWidth);
-            WallCell1.setTranslateY(i * Tiles.TileWidth);
-            Walls.add(WallCell1);
-            GamePane.getChildren().add(WallCell1);
+            Tile WallCell = new Tile(Tiles.tileWall.toURI().toURL().toString(), 1, i, j);
+            WallCell.setTranslateX(j * Tiles.tileWidth);
+            WallCell.setTranslateY(i * Tiles.tileWidth);
+            walls.add(WallCell);
+            gamePane.getChildren().add(WallCell);
+            i = tilesHeight;
+            Tile WallCell1 = new Tile(Tiles.tileWall.toURI().toURL().toString(), 1, i, j);
+            WallCell1.setTranslateX(j * Tiles.tileWidth);
+            WallCell1.setTranslateY(i * Tiles.tileWidth);
+            walls.add(WallCell1);
+            gamePane.getChildren().add(WallCell1);
         }
-        for(int i = 0;i < TilesHeight; i++) {
+        for(int i = 0;i < tilesHeight; i++) {
             int j = -1;
-            Tile WallCell = new Tile(Tiles.TileWall.toURI().toURL().toString(), 1, i, j);
-            WallCell.setTranslateX(j * Tiles.TileWidth);
-            WallCell.setTranslateY(i * Tiles.TileWidth);
-            Walls.add(WallCell);
-            GamePane.getChildren().add(WallCell);
-            j = TilesWide;
-            Tile WallCell1 = new Tile(Tiles.TileWall.toURI().toURL().toString(), 1, i, j);
-            WallCell1.setTranslateX(j * Tiles.TileWidth);
-            WallCell1.setTranslateY(i * Tiles.TileWidth);
-            Walls.add(WallCell1);
-            GamePane.getChildren().add(WallCell1);
+            Tile WallCell = new Tile(Tiles.tileWall.toURI().toURL().toString(), 1, i, j);
+            WallCell.setTranslateX(j * Tiles.tileWidth);
+            WallCell.setTranslateY(i * Tiles.tileWidth);
+            walls.add(WallCell);
+            gamePane.getChildren().add(WallCell);
+            j = tilesWide;
+            Tile WallCell1 = new Tile(Tiles.tileWall.toURI().toURL().toString(), 1, i, j);
+            WallCell1.setTranslateX(j * Tiles.tileWidth);
+            WallCell1.setTranslateY(i * Tiles.tileWidth);
+            walls.add(WallCell1);
+            gamePane.getChildren().add(WallCell1);
         }
 
         //Tanks
-        myTank = new Tank(Tiles.TileTank.toURI().toURL().toString());
-        myTank.SetOnCenter();
-        MainGamePane.getChildren().add(myTank);
+        myTank = new Tank(Tiles.tileTank.toURI().toURL().toString());
+        myTank.SpawnTank();
+        mainGamePane.getChildren().add(myTank);
 
+    }
 
+    public static void backToMenu(Stage win) {
+        win.setScene(Menu.mainMenuScene);
+        Main.backProc.isWork = false;
+        mainGamePane.getChildren().remove(myTank);
+        gamePane.getChildren().clear();
+        win.setX(850);
+        win.setY(350);
     }
 }

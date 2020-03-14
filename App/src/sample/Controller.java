@@ -3,50 +3,53 @@ package sample;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 public class Controller {
-    public static void InitKeyControl() {
-        Game.GameScene.setOnKeyPressed(e -> { //Нажатие
+    public static void initKeyControl(Stage win) {
+        Game.gameScene.setOnKeyPressed(e -> { //Нажатие
             switch (e.getCode()) {
                 case UP:
                     //System.out.println("UP");
-                    Tank.UPdir = 1;
+                    Tank.upDir = 1;
                     break;
                 case DOWN:
                     //System.out.println("DOWN");
-                    Tank.DOWNdir = 1;
+                    Tank.downDir = 1;
                     break;
                 case LEFT:
                     //System.out.println("LEFT");
-                    Tank.LEFTdir = 1;
+                    Tank.leftDir = 1;
                     break;
                 case RIGHT:
                     //System.out.println("RIGHT");
-                    Tank.RIGHTdir = 1;
+                    Tank.rightDir = 1;
                     break;
                 case ESCAPE:
-                    //System.out.println("EXIT");
+                    System.out.println("EXIT");
+                    Game.backToMenu(win);
+                    break;
+                case SPACE:
+                    System.out.println("Pow");
                     break;
             }
         });
 
-        Game.GameScene.setOnKeyReleased(e -> { //Отжатие
+        Game.gameScene.setOnKeyReleased(e -> { //Отжатие
             switch (e.getCode()) {
                 case UP:
-                    Tank.UPdir = 0;
+                    Tank.upDir = 0;
                     break;
                 case DOWN:
-                    Tank.DOWNdir = 0;
+                    Tank.downDir = 0;
                     break;
                 case LEFT:
-                    Tank.LEFTdir = 0;
+                    Tank.leftDir = 0;
                     break;
                 case RIGHT:
-                    Tank.RIGHTdir = 0;
+                    Tank.rightDir = 0;
                     break;
             }
         });
     }
-
-
 }

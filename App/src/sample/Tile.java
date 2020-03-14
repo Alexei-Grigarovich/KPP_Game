@@ -4,13 +4,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Tile extends ImageView {
-    double LeftBorder = 0, RightBorder = 0, TopBorder = 0, DownBorder = 0;
+    double leftBorder = 0, rightBorder = 0, topBorder = 0, downBorder = 0;
     int iY = 0, jX = 0;
-    int Type = -1; //0 - grass, 1 - wall, 2 - cantSpawn
+    int type = -1; //0 - grass, 1 - wall, 2 - cantSpawn
 
-    public Tile(String url, int type, int i, int j) {
+    public Tile(String url, int inType, int i, int j) {
         super(url);
-        Type = type;
+        type = inType;
         iY = i;
         jX = j;
     }

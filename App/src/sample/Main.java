@@ -33,18 +33,20 @@ public class Main extends Application {
     @Override
     public void start(Stage win) throws Exception {
         //Initialization
-        Tiles.InitFiles();
-        Game.InitScene();
-        Menu.InitScene(win, Game.GameScene);
+        Tiles.initFiles();
+        Game.initScene();
+        Menu.initScene(win);
+        Settings.initScene(win);
+        Main.backProc.start();
 
-        win.setResizable(false);
-        win.setScene(Menu.MainMenuScene);
         win.show();
+        win.setX(850);
+        win.setY(350);
     }
 
     @Override
     public void stop() throws Exception {
-        backProc.stop();
+        Main.backProc.stop();
         super.stop();
     }
 
