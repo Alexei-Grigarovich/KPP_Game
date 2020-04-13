@@ -7,47 +7,48 @@ import javafx.stage.Stage;
 
 public class Controller {
     public static void initKeyControl(Stage win) {
-        Game.gameScene.setOnKeyPressed(e -> { //Нажатие
+        Game.getGameScene().setOnKeyPressed(e -> { //Нажатие
             switch (e.getCode()) {
                 case UP:
-                    //System.out.println("UP");
-                    Tank.upDir = 1;
+                    //System.out.println("up");
+                    Game.getPlayerTank().setUpDir(1);
                     break;
                 case DOWN:
-                    //System.out.println("DOWN");
-                    Tank.downDir = 1;
+                    //System.out.println("down");
+                    Game.getPlayerTank().setDownDir(1);
                     break;
                 case LEFT:
-                    //System.out.println("LEFT");
-                    Tank.leftDir = 1;
+                    //System.out.println("left");
+                    Game.getPlayerTank().setLeftDir(1);
                     break;
                 case RIGHT:
-                    //System.out.println("RIGHT");
-                    Tank.rightDir = 1;
+                    //System.out.println("right");
+                    Game.getPlayerTank().setRightDir(1);
                     break;
                 case ESCAPE:
-                    System.out.println("EXIT");
+                    System.out.println("exit");
                     Game.backToMenu(win);
                     break;
                 case SPACE:
-                    System.out.println("Pow");
+                    //System.out.println("Pow!");
+                    Game.getPlayerTank().shoot();
                     break;
             }
         });
 
-        Game.gameScene.setOnKeyReleased(e -> { //Отжатие
+        Game.getGameScene().setOnKeyReleased(e -> { //Отжатие
             switch (e.getCode()) {
                 case UP:
-                    Tank.upDir = 0;
+                    Game.getPlayerTank().setUpDir(0);
                     break;
                 case DOWN:
-                    Tank.downDir = 0;
+                    Game.getPlayerTank().setDownDir(0);
                     break;
                 case LEFT:
-                    Tank.leftDir = 0;
+                    Game.getPlayerTank().setLeftDir(0);
                     break;
                 case RIGHT:
-                    Tank.rightDir = 0;
+                    Game.getPlayerTank().setRightDir(0);
                     break;
             }
         });

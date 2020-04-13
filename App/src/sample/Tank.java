@@ -1,50 +1,124 @@
 package sample;
 
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import java.net.MalformedURLException;
+abstract class Tank extends ImageView {
+    private double leftBorder = 0;
+    private double rightBorder = 0;
+    private double topBorder = 0;
+    private double downBorder = 0;
 
-public class Tank extends ImageView {
-    public static double leftBorder = 0, rightBorder = 0, topBorder = 0, downBorder = 0;
-    public static double speed = 2.0f;
-    public static double rotate = 0f;
-    public static double upDir = 0, downDir = 0, leftDir = 0, rightDir = 0;
+    private double currentReloadTime = 0f;
+    private double tankRotate = 0f;
 
-    public Tank(String url) {
+    private double speed = 2.0f;
+    private double reloading = 500f; //ms
+
+    private double upDir = 0;
+    private double downDir = 0;
+    private double leftDir = 0;
+    private double rightDir = 0;
+
+    Tank(String url) {
         super(url);
     }
 
-    public void SpawnTank() {
-        //set tank on i = 0 and j = 0
-        this.setTranslateX(Game.gameSceneWidth/2 - Game.myTank.getImage().getWidth()/2);
-        this.setTranslateY(Game.gameSceneHeight/2 - Game.myTank.getImage().getHeight()/2);
-        Game.gamePane.setTranslateY(this.getTranslateY());
-        Game.gamePane.setTranslateX(this.getTranslateX());
-
-        //random spawn tank
-        int j, i;
-        boolean flag = true;
-        do {
-            j = (int)(Math.random() * (Game.tilesWide - 1));
-            i = (int)(Math.random() * (Game.tilesHeight - 1));
-            for(int k = 0; k < Game.walls.size(); k++) {
-                if(!(Game.walls.get(k).jX == (int)j && Game.walls.get(k).iY == (int)i)) {
-                    flag = false;
-                } else {
-                    flag = true;
-                    break;
-                }
+    public void shoot() {
+        if (this.getCurrentReloadTime() == this.getReloading()) {
+            this.setCurrentReloadTime(0);
+            try {
+                Game.spawnBullet(this); //Spawn bullet
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
-        } while(flag);
-        Game.gamePane.setTranslateY(Game.gamePane.getTranslateY() - (int)i * Tiles.tileWidth);
-        Game.gamePane.setTranslateX(Game.gamePane.getTranslateX() - (int)j * Tiles.tileWidth);
-        System.out.println("Вы заспавнены на координатах " + i + " " + j);
+        }
+    }
 
-        //set tank borders
-        leftBorder = this.getTranslateX() + 10;
-        rightBorder = this.getTranslateX() + 54;
-        topBorder = this.getTranslateY() + 10;
-        downBorder = this.getTranslateY() + 54;
+    public double getSpeed() {
+        return speed;
+    }
+
+    public double getReloading() {
+        return reloading;
+    }
+
+    public void setUpDir(double upDir) {
+        this.upDir = upDir;
+    }
+
+    public double getUpDir() {
+        return upDir;
+    }
+
+    public void setDownDir(double downDir) {
+        this.downDir = downDir;
+    }
+
+    public double getDownDir() {
+        return downDir;
+    }
+
+    public void setLeftDir(double leftDir) {
+        this.leftDir = leftDir;
+    }
+
+    public double getLeftDir() {
+        return leftDir;
+    }
+
+    public void setRightDir(double rightDir) {
+        this.rightDir = rightDir;
+    }
+
+    public double getRightDir() {
+        return rightDir;
+    }
+
+    public void setLeftBorder(double leftBorder) {
+        this.leftBorder = leftBorder;
+    }
+
+    public double getLeftBorder() {
+        return leftBorder;
+    }
+
+    public void setRightBorder(double rightBorder) {
+        this.rightBorder = rightBorder;
+    }
+
+    public double getRightBorder() {
+        return rightBorder;
+    }
+
+    public void setTopBorder(double topBorder) {
+        this.topBorder = topBorder;
+    }
+
+    public double getTopBorder() {
+        return topBorder;
+    }
+
+    public void setDownBorder(double downBorder) {
+        this.downBorder = downBorder;
+    }
+
+    public double getDownBorder() {
+        return downBorder;
+    }
+
+    public double getTankRotate() {
+        return tankRotate;
+    }
+
+    public void setTankRotate(double tankRotate) {
+        this.tankRotate = tankRotate;
+    }
+
+    public void setCurrentReloadTime(double currentReloadTime) {
+        this.currentReloadTime = currentReloadTime;
+    }
+    
+    public double getCurrentReloadTime() {
+        return currentReloadTime;
     }
 }

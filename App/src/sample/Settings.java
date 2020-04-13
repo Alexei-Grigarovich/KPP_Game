@@ -1,43 +1,53 @@
 package sample;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class Settings {
-    public static VBox settingsBox = null;
-    public static Scene settingsScene = null;
-    public static Slider slider1 = null;
-    public static Label text1 = null;
+    private static VBox settingsBox = null;
+    private static Scene settingsScene = null;
+    private static Slider chanceSpawnWall = null;
+    private static Label maxChanceText = null;
 
     public static void initScene(Stage win) {
         settingsBox = new VBox(10);
         settingsBox.setAlignment(Pos.CENTER);
+        settingsBox.setBackground(new Background(new BackgroundFill(Color.rgb(176, 219, 201), CornerRadii.EMPTY, Insets.EMPTY)));
 
-        settingsScene = new Scene(settingsBox, Menu.sceneWide, Menu.sceneHeight);
+        settingsScene = new Scene(settingsBox, Menu.getSceneWide(), Menu.getSceneHeight());
 
         settingsScene.setOnKeyPressed(e -> {
-            if(e.getCode() == KeyCode.ESCAPE) win.setScene(Menu.mainMenuScene);
+            if (e.getCode() == KeyCode.ESCAPE) {
+                win.setScene(Menu.getMenuScene());
+            }
         });
 
-        slider1 = new Slider(15, 45, 30);
-        slider1.setMaxWidth(180);
-        slider1.setShowTickLabels(true);
-        slider1.setShowTickMarks(true);
-        slider1.setMajorTickUnit(5);
-        slider1.setMinorTickCount(4);
-        slider1.setSnapToTicks(false); //Привязка
-        slider1.setOnMouseReleased(e -> {
-            Game.maxChance = slider1.getValue()/100;
+        //Wall spawn chance Slider
+        chanceSpawnWall = new Slider(15, 45, 30);
+        chanceSpawnWall.setMaxWidth(180);
+        chanceSpawnWall.setShowTickLabels(true);
+        chanceSpawnWall.setShowTickMarks(true);
+        chanceSpawnWall.setMajorTickUnit(5);
+        chanceSpawnWall.setMinorTickCount(4);
+        chanceSpawnWall.setSnapToTicks(false); //Привязка
+        chanceSpawnWall.setOnMouseReleased(e -> {
+            Game.setMaxChance(chanceSpawnWall.getValue() / 100);
         });
+        //
+        maxChanceText = new Label("Max chance of spawn walls");
 
-        text1 = new Label("Max chance of spawn walls");
+        //Adding components
+        settingsBox.getChildren().addAll(maxChanceText, chanceSpawnWall);
+    }
 
-        settingsBox.getChildren().addAll(text1, slider1);
+    public static Scene getSettingsScene() {
+        return settingsScene;
     }
 }
