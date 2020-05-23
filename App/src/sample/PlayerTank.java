@@ -1,14 +1,20 @@
 package sample;
 
+import javafx.scene.image.Image;
+
+import java.net.MalformedURLException;
+
 public class PlayerTank extends Tank {
-    PlayerTank(String url) {
-        super(url);
+    private int frame = 0;
+
+    PlayerTank(String url, int damage, double cdMs) {
+        super(url, damage, cdMs);
     }
 
     public void spawnTank() {
         //set tank on i = 0 and j = 0
-        this.setTranslateX(Game.getSceneWidth() / 2 - this.getImage().getWidth() / 2);
-        this.setTranslateY(Game.getSceneHeight() / 2 - this.getImage().getHeight() / 2);
+        this.setTranslateX(Game.getSceneWidth() / 2 - Tiles.getTileWidth() / 2);
+        this.setTranslateY(Game.getSceneHeight() / 2 - Tiles.getTileWidth() / 2);
         Game.getGamePane().setTranslateY(this.getTranslateY());
         Game.getGamePane().setTranslateX(this.getTranslateX());
 
@@ -32,5 +38,12 @@ public class PlayerTank extends Tank {
         Game.getGamePane().setTranslateY(Game.getGamePane().getTranslateY() - i * Tiles.getTileWidth());
         Game.getGamePane().setTranslateX(Game.getGamePane().getTranslateX() - j * Tiles.getTileWidth());
         System.out.println("Вы заспавнены на координатах " + i + " " + j);
+    }
+
+    public void setNextFrame() throws MalformedURLException {
+        this.setImage(new Image(Tiles.getTileTank()[frame].toURI().toURL().toString()));
+
+        frame++;
+        if (frame >= 3) frame = 0;
     }
 }

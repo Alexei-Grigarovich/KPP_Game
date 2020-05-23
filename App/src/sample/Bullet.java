@@ -3,12 +3,18 @@ package sample;
 import javafx.scene.image.ImageView;
 
 public class Bullet extends ImageView {
-    private static double speed = 5.0f;
-    private double xDir = 0;
-    private double yDir = 0;
+    private static double speed = 8.0f;
+    private int xDir = 0;
+    private int yDir = 0;
 
-    public Bullet(String url, Tank tank) {
+    private boolean fromPlayer = true;
+    private int power = 0;
+
+    public Bullet(String url, Tank tank, int power, boolean fromPlayer) {
         super(url);
+
+        this.power = power;
+        this.fromPlayer = fromPlayer;
 
         if (tank.getTankRotate() == 0) {
             xDir = 0;
@@ -44,11 +50,19 @@ public class Bullet extends ImageView {
         }
     }
 
-    public double getXDir() {
+    public boolean isFromPlayer() {
+        return fromPlayer;
+    }
+
+    public int getPower() {
+        return power;
+    }
+
+    public int getXDir() {
         return xDir;
     }
 
-    public double getYDir() {
+    public int getYDir() {
         return yDir;
     }
 

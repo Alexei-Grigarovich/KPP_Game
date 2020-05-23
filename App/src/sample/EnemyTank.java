@@ -1,7 +1,12 @@
 package sample;
 
+import javafx.scene.image.Image;
+
+import java.net.MalformedURLException;
+
 public class EnemyTank extends Tank {
     private int time = 0;
+    private int frame = 0;
 
     private int spawnI;
     private int spawnJ;
@@ -11,8 +16,8 @@ public class EnemyTank extends Tank {
     private boolean canMoveUp = true;
     private boolean canMoveDown = true;
 
-    EnemyTank(String url) {
-        super(url);
+    EnemyTank(String url, int damage, double cdMs) {
+        super(url, damage, cdMs);
     }
 
     public void spawnTank() {
@@ -103,6 +108,17 @@ public class EnemyTank extends Tank {
                 }
                 break;
         }
+    }
+
+    public void setNextFrame() throws MalformedURLException {
+        if(isDeath()) {
+            this.setImage(new Image(Tiles.getTileDeadEnemyTank()[frame].toURI().toURL().toString()));
+        } else {
+            this.setImage(new Image(Tiles.getTileEnemyTank()[frame].toURI().toURL().toString()));
+        }
+
+        frame++;
+        if (frame >= 3) frame = 0;
     }
 
     public void setTime(int time) {

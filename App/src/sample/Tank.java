@@ -1,6 +1,11 @@
 package sample;
 
+import javafx.geometry.Point3D;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
+import java.net.MalformedURLException;
 
 abstract class Tank extends ImageView {
     private double leftBorder = 0;
@@ -12,26 +17,53 @@ abstract class Tank extends ImageView {
     private double tankRotate = 0f;
 
     private double speed = 2.0f;
-    private double reloading = 500f; //ms
+    private double reloading = 0f; //ms
+
+    private int hp = 100;
+    private int damage = 0;
 
     private double upDir = 0;
     private double downDir = 0;
     private double leftDir = 0;
     private double rightDir = 0;
 
-    Tank(String url) {
+    private boolean death = false;
+
+    Tank(String url, int damage, double cdMs) {
         super(url);
+        this.damage = damage;
+        this.reloading = cdMs;
     }
 
-    public void shoot() {
+    public void shoot(int power, boolean fromPlayer) {
         if (this.getCurrentReloadTime() == this.getReloading()) {
             this.setCurrentReloadTime(0);
             try {
-                Game.spawnBullet(this); //Spawn bullet
+                Game.spawnBullet(this, power, fromPlayer); //Spawn bullet
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
+    }
+
+    public void setDeath(boolean death) {
+        this.death = death;
+    }
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public boolean isDeath() {
+        return death;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
     }
 
     public double getSpeed() {

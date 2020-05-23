@@ -10,9 +10,12 @@ public class Main extends Application {
     public void start(Stage win) throws Exception {
         //Initialization
         Tiles.initFiles();
-        Game.initScene();
+        Game.initScene(win);
         Menu.initScene(win);
         Settings.initScene(win);
+        Saves.initSaves();
+        GameList.initGameList(win);
+        LoadGame.initLoadGame(win);
 
         backProc = new BackProc();
         backProc.start();

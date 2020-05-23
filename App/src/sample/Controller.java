@@ -5,6 +5,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class Controller {
     public static void initKeyControl(Stage win) {
         Game.getGameScene().setOnKeyPressed(e -> { //Нажатие
@@ -27,11 +29,15 @@ public class Controller {
                     break;
                 case ESCAPE:
                     System.out.println("exit");
-                    Game.backToMenu(win);
+                    try {
+                        Game.backToMenu(win, true);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                     break;
                 case SPACE:
                     //System.out.println("Pow!");
-                    Game.getPlayerTank().shoot();
+                    Game.getPlayerTank().shoot(Game.getPlayerTank().getDamage(), true);
                     break;
             }
         });

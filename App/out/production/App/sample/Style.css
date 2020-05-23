@@ -1,0 +1,35 @@
+.label15pxBlack {
+    -fx-font-family: 'Bebas Neue Bold';
+    -fx-font-size: 15px;
+    -fx-text-fill: black;
+}
+
+.label20px {
+    -fx-font-family: 'Bebas Neue Bold';
+    -fx-font-size: 20px;
+    -fx-text-fill: white;
+}
+
+.label25px {
+    -fx-font-family: 'Bebas Neue Bold';
+    -fx-font-size: 25px;
+    -fx-text-fill: white;
+}
+
+.label30px {
+    -fx-font-family: 'Bebas Neue Bold';
+    -fx-font-size: 30px;
+    -fx-text-fill: white;
+}
+
+.label30pxBlack {
+    -fx-font-family: 'Bebas Neue Bold';
+    -fx-font-size: 30px;
+    -fx-text-fill: black;
+}
+
+.label40px {
+    -fx-font-family: 'Bebas Neue Bold';
+    -fx-font-size: 40px;
+    -fx-text-fill: white;
+}
